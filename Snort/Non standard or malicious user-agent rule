@@ -1,0 +1,34 @@
+# This rule detect HTTP requests with non-standard or malicious user-agent strings often used by bots or attackers.
+alert tcp any any -> any any (msg:"SUSPICIOUS User-Agent found"; flow:to_server,established; content:"User-Agent|3A| "; http_header; pcre:"/User-Agent: (curl|wget|python-requests|Go-http-client)/i"; sid:100001; rev:1;)
+
+
+
+# List of commonly reported malicious User-Agent strings that you can use for threat detection: 
+1. Common Command-Line Tools and Scripting Agents:
+  •	curl: curl/7.x
+  •	wget: Wget/1.x
+  •	python-requests: python-requests/2.x
+  •	Go-http-client: Go-http-client/1.x
+  •	Java: Java/1.x
+2. Web Scraping and Crawling Agents:
+  •	Scrapy: Scrapy/1.x
+  •	python-urllib: Python-urllib/3.x
+  •	Mechanize: mechanize/0.x
+  •	HttpClient: Apache-HttpClient/4.x
+  •	libwww-perl: libwww-perl/5.x
+3. Known Vulnerability Scanners and Attack Tools:
+  •	Nikto: Nikto/2.x
+  •	sqlmap: sqlmap/1.x
+  •	ZAP (OWASP ZAP): Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:71.0) Gecko/20100101 Firefox/71.0 OWASP ZAP
+  •	Nmap: Mozilla/5.0 (compatible; Nmap Scripting Engine; http://nmap.org/book/nse.html)
+  •	Arachni: Arachni/v1.x
+4. Bot and Crawler User-Agents:
+  •	MJ12bot: MJ12bot/v1.x (http://www.majestic12.co.uk/bot.php?+)
+  •	AhrefsBot: Mozilla/5.0 (compatible; AhrefsBot/7.0; +http://ahrefs.com/robot/)
+  •	SemrushBot: Mozilla/5.0 (compatible; SemrushBot/3~bl; +http://www.semrush.com/bot.html)
+  •	DotBot: Mozilla/5.0 (compatible; DotBot/1.x; http://www.opensiteexplorer.org/dotbot, +http://www.dotnetdotcom.org/)
+  •	Screaming Frog SEO Spider: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3 (compatible; Screaming Frog SEO Spider/10.1)
+5. Malware-Associated User-Agents:
+  •	Emotet: Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1)
+  •	TrickBot: Varies, often mimicking legitimate user-agents like outdated versions of Internet Explorer or Firefox.
+  •	Cobalt Strike: Often customized, but sometimes identified as Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:52.0) Gecko/20100101 Firefox/52.0
